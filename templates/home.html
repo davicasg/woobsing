@@ -1,0 +1,68 @@
+{% extends 'layaout.html' %}
+
+{% block content %}
+
+
+<form class="row g-6" action="" method="post">
+    <div class="col-auto">
+        <h3>Ingrese una URL:</h3>
+    </div>
+    <div class="col-4">
+        <label for="url" class="visually-hidden">Url</label>
+        <input type="url" pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$" required class="form-control" id="url" name="url"
+            placeholder="https://pagina.com/robot_rastreador_palabras/python">
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary mb-3">Verificar</button>
+    </div>
+</form>
+
+<div id="contenedor" style="display: none;">
+    <input type="hidden" value="{{ok}}" id="ok">
+
+
+    <p>
+        A continuación se listan las palabras encontradas en la url <b>{{url}}</b> con la cantidad de veces que se
+        repite en orden descendente
+    </p>
+    <p>
+        Se aclara que no se tienen en cuenta números ni conjunciones copulativas y disyuntivas (como: 'o', 'y', 'u', 'a') así como tambien se excluyen caracteres especiales
+    </p>
+
+    <div class="row p-4">
+        <div class="col-auto">
+            <ul class="list-group">
+                <li class="list-group-item d-flex align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Palabra </div>
+                    </div>
+                    <span class="badge bg-primary rounded-pill"> #</span>
+                </li>
+                {% for key in response %}
+                <li class="list-group-item d-flex align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div >{{ key }} </div>
+                    </div>
+                    <span class="badge bg-primary rounded-pill"> {{ response.get(key) }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    var resultado = document.getElementById("contenedor");
+    var ok = document.getElementById("ok").value;
+
+    if (ok == 'True') {
+        console.log('Ingresando')
+        document.getElementById("contenedor").style.display = 'block';
+    } else {
+        document.getElementById("contenedor").style.display = 'none';
+    }
+</script>
+
+{% endblock %}
